@@ -22,8 +22,8 @@ return new class extends Migration
             $table->decimal('sodium_mg', 8, 2)->default(0);
             $table->string('barcode', 20)->nullable();
             $table->enum('source', ['curated', 'usda', 'off'])->default('curated');
-            $table->json('allergen_tags')->default('[]');
-            $table->json('diet_tags')->default('[]');
+            $table->json('allergen_tags');
+            $table->json('diet_tags');
             $table->boolean('is_active')->default(true);
             $table->timestamps();
 

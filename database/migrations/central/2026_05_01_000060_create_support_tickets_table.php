@@ -22,7 +22,7 @@ return new class extends Migration
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('tenant_id')->references('id')->on('tenants')->onDelete('cascade');
-            $table->foreign('assigned_to')->references('id')->on('users')->onDelete('setNull');
+            $table->foreign('assigned_to')->references('id')->on('users')->nullOnDelete();
             $table->index('user_id');
             $table->index(['status', 'priority']);
             $table->index(['assigned_to', 'status']);

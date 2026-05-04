@@ -13,7 +13,7 @@ return new class extends Migration
             $table->string('slug', 120)->unique();
             $table->string('name', 160);
             $table->string('primary_muscle', 40);
-            $table->json('secondary_muscles')->default('[]');
+            $table->json('secondary_muscles');
             $table->string('equipment', 40);
             $table->enum('mechanic', ['compound', 'isolation']);
             $table->enum('force', ['push', 'pull', 'static']);
@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('video_url', 255)->nullable();
             $table->string('thumbnail_path', 255)->nullable();
             $table->text('instructions')->nullable();
-            $table->json('injury_tags')->default('[]');
+            $table->json('injury_tags');
             $table->integer('popularity')->unsigned()->default(0);
             $table->boolean('is_active')->default(true);
             $table->timestamps();

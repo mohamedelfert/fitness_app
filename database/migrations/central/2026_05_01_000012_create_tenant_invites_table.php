@@ -13,7 +13,7 @@ return new class extends Migration
             $table->char('tenant_id', 26);
             $table->string('email', 190);
             $table->enum('role', ['coach', 'client', 'staff'])->default('client');
-            $table->char('token', 64)->unique();
+            $table->char('token', 64);
             $table->timestamp('expires_at');
             $table->timestamp('accepted_at')->nullable();
             $table->char('invited_by', 26);
@@ -21,7 +21,7 @@ return new class extends Migration
 
             $table->foreign('tenant_id')->references('id')->on('tenants')->onDelete('cascade');
             $table->foreign('invited_by')->references('id')->on('users')->onDelete('cascade');
-            $table->unique('token');
+            $table->unique(['token']);
             $table->index(['tenant_id', 'email']);
         });
     }

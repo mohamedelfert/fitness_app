@@ -25,7 +25,7 @@ return new class extends Migration
             $table->timestamp('trial_ends_at')->nullable();
             $table->char('owner_user_id', 26);
             $table->string('stripe_customer_id', 60)->nullable();
-            $table->json('settings')->default('{}');
+            $table->json('settings');
             $table->timestamps();
 
             $table->foreign('owner_user_id')->references('id')->on('users')->onDelete('cascade');
