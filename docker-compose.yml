@@ -1,0 +1,77 @@
+version: '3.8'
+
+services:
+  # Central MySQL Database
+  mysql-central:
+    image: mysql:8.0
+    container_name: fetness_central
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root_secret
+      MYSQL_DATABASE: fetness_central
+      MYSQL_USER: fetness
+      MYSQL_PASSWORD: fetness_secret
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_central_data:/var/lib/mysql
+    command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    networks:
+      - fetness
+
+  # Tenant Template MySQL Database
+  mysql-tenant:
+    image: mysql:8.0
+    container_name: fetness_tenant_template
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root_secret
+      MYSQL_DATABASE: tenant_template
+      MYSQL_USER: fetness
+      MYSQL_PASSWORD: fetness_secret
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_tenant_data:/var/lib/mysql
+    command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    networks:
+      - fetness
+
+  # Redis for caching, sessions, queue
+  redis:
+    image: redis:7-alpine
+    container_name: fetness_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - fetness
+
+  # Mailhog for local email testing
+  mailhog:
+    image: mailhog/mailhog
+    container_name: fetness_mailhog
+    restart: unless-stopped
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    volumes:
+      - mailhog_data:/data
+    networks:
+      - fetness
+
+volumes:
+  mysql_central_data:
+    driver: local
+  mysql_tenant_data:
+    driver: local
+  redis_data:
+    driver: local
+  mailhog_data:
+    driver: local
+
+networks:
+  fetness:
+    driver: bridge
